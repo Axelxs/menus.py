@@ -5,6 +5,7 @@ from email.mime.base import MIMEBase
 from smtplib import SMTP
 from email.mime.text import MIMEText
 import socket
+import telebot  
 import logging
 import asyncio
 import sys
@@ -16,22 +17,29 @@ import platform
 from datetime import datetime
 import binascii
 import ipaddress
+import platform
 
+RR = "\033[29;m"
+def a(s):
+        for c in s + '\n':
+                sys.stdout.write(c)
+                sys.stdout.flush()
+                time.sleep(1./170)
 
-print ("╭━╮╭━╮╭━━━╮╭━╮╱╭╮╭╮╱╭╮   ╭━━━╮╭━━━╮╭━━━╮╭━━╮╭━━━╮╭━━━━╮╭━━━╮")
-print("┃┃╰╯┃┃┃╭━━╯┃┃╰╮┃┃┃┃╱┃┃   ┃╭━╮┃┃╭━╮┃┃╭━╮┃╰┫┣╯┃╭━╮┃┃╭╮╭╮┃┃╭━╮┃")
-print("┃╭╮╭╮┃┃╰━━╮┃╭╮╰╯┃┃┃╱┃┃   ┃╰━━╮┃┃╱╰╯┃╰━╯┃╱┃┃╱┃╰━╯┃╰╯┃┃╰╯┃╰━━╮")
-print("┃┃┃┃┃┃┃╭━━╯┃┃╰╮┃┃┃┃╱┃┃   ╰━━╮┃┃┃╱╭╮┃╭╮╭╯╱┃┃╱┃╭━━╯╱╱┃┃╱╱╰━━╮┃")
-print("┃┃┃┃┃┃┃╰━━╮┃┃╱┃┃┃┃╰━╯┃   ┃╰━╯┃┃╰━╯┃┃┃┃╰╮╭┫┣╮┃┃╱╱╱╱╱┃┃╱╱┃╰━╯┃")
-print("╰╯╰╯╰╯╰━━━╯╰╯╱╰━╯╰━━━╯   ╰━━━╯╰━━━╯╰╯╰━╯╰━━╯╰╯╱╱╱╱╱╰╯╱╱╰━━━╯")
-print("╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱   ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱")
-print("╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱   ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱")
+a(RR+"╭━╮╭━╮╭━━━╮╭━╮╱╭╮╭╮╱╭╮   ╭━━━╮╭━━━╮╭━━━╮╭━━╮╭━━━╮╭━━━━╮╭━━━╮")
+a(RR+"┃┃╰╯┃┃┃╭━━╯┃┃╰╮┃┃┃┃╱┃┃   ┃╭━╮┃┃╭━╮┃┃╭━╮┃╰┫┣╯┃╭━╮┃┃╭╮╭╮┃┃╭━╮┃")
+a(RR+"┃╭╮╭╮┃┃╰━━╮┃╭╮╰╯┃┃┃╱┃┃   ┃╰━━╮┃┃╱╰╯┃╰━╯┃╱┃┃╱┃╰━╯┃╰╯┃┃╰╯┃╰━━╮")
+a(RR+"┃┃┃┃┃┃┃╭━━╯┃┃╰╮┃┃┃┃╱┃┃   ╰━━╮┃┃┃╱╭╮┃╭╮╭╯╱┃┃╱┃╭━━╯╱╱┃┃╱╱╰━━╮┃")
+a(RR+"┃┃┃┃┃┃┃╰━━╮┃┃╱┃┃┃┃╰━╯┃   ┃╰━╯┃┃╰━╯┃┃┃┃╰╮╭┫┣╮┃┃╱╱╱╱╱┃┃╱╱┃╰━╯┃")
+a(RR+"╰╯╰╯╰╯╰━━━╯╰╯╱╰━╯╰━━━╯   ╰━━━╯╰━━━╯╰╯╰━╯╰━━╯╰╯╱╱╱╱╱╰╯╱╱╰━━━╯")
+a(RR+"╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱   ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱")
+a(RR+"╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱   ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱")
 
-print(" Creador: Axel")      
-print(" Tiktok: axel.is.pastriboy")
+a(RR+" Creador: Axel")      
+a(RR+" Tiktok: axel.is.pastriboy")
 print("")
-print("╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱   ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱")
-choice = int(input("1.-BOTNET  TIKTOK\n2.-ESCANEO WEP\n3.-spam de correos gmail\n4.-info de IP publica\n5.-Servidor privado http\n6.-Mi IP privada \n7.-info basica de cualquier tipo de ip \nEnter Choice : ")) 
+a(RR+"╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱   ╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱╱")
+choice = int(input("1.-BOTNET  TIKTOK\n2.-ESCANEO WEP\n3.-spam de correos gmail\n4.-info de IP publica\n5.-Servidor privado http\n6.-Mi IP privada \n7.-info basica de cualquier tipo de ip \n8.-Info de un numero\n9.-Barrido de IP\nSeleccione una opsion: ")) 
 b = 1         
 if choice == 1:
                     print("\033[;32m")
@@ -119,7 +127,7 @@ elif choice == 4:
               print(ip_scraping(ip)[x])
               print("n")
               
-              quit()
+    
               
               
 elif choice == 5:
@@ -138,10 +146,12 @@ elif choice == 5:
     
 
             self.end_headers()
-            self.wfile.write('xdxdxd\n'.encode('utf-8'))
+            self.wfile.write((text).encode('utf-8'))
      IP = ""
      IP = input("ingresa tu direccion IP, si no quieres solo pon 'localhost': ")
      print("para entrar al server busca en gogle 'localhost:8443 o si pusiste tu ip solo cambias el localhost por la IP")
+     text = ""
+     text = input ("ingresa el contenido del server:")
      if __name__ == '__main__':
          from http.server import HTTPServer
          server = HTTPServer(( (IP), 8443,), GetHandler)
@@ -185,3 +195,81 @@ elif choice == 7:
          print()
      
      
+elif choice == 8:
+
+    os.system("clear")
+   
+    api_key = '31e04799e5b72d22be4bed51565ddadb'
+    number = int(input("Numero de telefono: "))
+    data = requests.get("http://apilayer.net/api/validate?access_key=%s&number=%s&country_code&format=1" % (api_key, number))
+    for key, value in data.json().items():
+        print("%s: %s" % (key, value))
+   
+ 
+elif choice == 9:
+    
+    
+    g = int(input("1.-barrido grande\n2.-barrido a solo puertos basicos (21, 22, 25, 80)\nEnter Choice : ")) 
+    
+    
+    if g == 1:
+        
+        print("\033[32;1m")
+        
+        ip = input("Ingresa la IP: ")
+        ipDividida = ip.split('.')
+        try:
+            red = ipDividida[0]+'.'+ipDividida[1]+'.'+ipDividida[2]+'.'
+            comienzo = int(input("Ingresa el número de comienzo de la subred: "))
+            fin = int(input("Ingresa el número en el que deseas acabar el barrido: "))
+            print ("[#] el barrido puede tardar segun la ip")
+        except:
+            print("[!] Error")
+            sys.exit(1)
+            
+            
+        if (platform.system()=="Windows"):
+            ping = "ping -n 1"
+        else :
+            ping = "ping -c 1"
+            tiempoInicio = datetime.now()
+            print("[*] El escaneo se está realizando desde",red+str(comienzo),"hasta",red+str(fin))
+            for subred in range(comienzo, fin+1):
+                direccion = red+str(subred)
+                response = os.popen(ping+" "+direccion)
+                for line in response.readlines():
+                    if ("ttl" in line.lower()):
+                        print(direccion,"está activo")
+                        break
+        tiempoFinal = datetime.now()
+        tiempo = tiempoFinal - tiempoInicio
+        print("[*] El escaneo ha durado %s"%tiempo)()
+        
+  
+        quit()
+      
+    
+    elif g == 2:
+        
+            print (" puede que este programa no funcione, si no funciona elija el barrido grande")
+            IP = ""
+            IP = input ("IP del escaneo :")
+            def scan(addr, port):
+                socket_obj = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                socket.setdefaulttimeout(1)
+                result = socket_obj.connect_ex((addr,port)) 
+                socket_obj.close()
+                return result
+            ports=[21, 22, 25, 80]
+            for i in range(1,255):
+                addr=(IP).format(i)
+                for port in ports:
+                    result=scan(addr, port)
+                    if result==0:
+                        print(addr, port, "OK")
+                    else:
+                        print(addr, port, "Failed")      
+                        
+                          
+
+ 
